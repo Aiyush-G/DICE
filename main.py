@@ -5,8 +5,9 @@ from time import sleep
 
 file_name = "accountfile.txt"
 registered_users = aH.get_users(file_name)
-numRounds = 1
+numRounds = 5
 sleepDuration = 0.1
+
     
 p1 = aH.loginOrRegister(registered_users, file_name) # returns username if successfull
 p2 = aH.loginOrRegister(registered_users, file_name)
@@ -18,6 +19,15 @@ messageRole = lambda p: print(p1.messageRole) if p == "p1" else print(p2.message
 
 
 def turn(sleepDuration):
+    """ A single turn function that uses the user object to role 2 random numbers, calculate its' meaning following:
+    | if total is even score += 10
+    | if total is odd score -= 5
+    | if role1 = role2 you can role3
+    | score !< 0 at any time
+
+    Args:
+        sleepDuration (int): the amount of time between each message displayed on screen.
+    """
     p1.roled = user.role()
     p2.roled = user.role()
 
@@ -39,6 +49,14 @@ def turn(sleepDuration):
     sleep(sleepDuration)
 
 def topScores(score_file):
+    """ Opens the score_file with all of the games ever recorded and orders them in terms of their numerical score against the players name and ranks the top scorer ever.
+
+    Args:
+        score_file (string): path to txt file where scores should be stored.
+
+    Returns:
+        fString: a message with the top scorer and their name
+    """
     scores = []
 
     with open(score_file, 'r') as file:
@@ -52,6 +70,9 @@ def topScores(score_file):
     return f"The top score ever was {scores[index]} by {person}"
     
 def winner():
+    """ Evaluates the players overall score stored in scores.txt (should be pre-written) and then runs the winner function depending upon who won alongside a message (see result lambda & write lambda)
+
+    """
     score_file = "scores.txt"
 
     result = lambda p: printt(f"{p1.username} won with score: {p1.score}") if p == "p1" else printt(f"{p2.username} won with score: {p2.score}")
@@ -59,6 +80,12 @@ def winner():
     scoreOut = lambda: print(topScores(score_file))
 
     def writeScore(p, score_file):
+        """Writes the score of both players to a file which could be accessed in a later game with the players top scores if they had one of the highscores.
+
+        Args:
+            p (User Object): the player object, could be player 1 or 2 in this scenario.
+            score_file (string): path to where the score should be written to, this file should already exist.
+        """
         with open(score_file, 'a') as f:
             write(p, f)
 
@@ -80,6 +107,8 @@ def winner():
     
 
 def rounds():
+    """A procedural way of running numRounds amount of rounds this avoids hardcoding in a specific number of itterations for the code to loop through.
+    """
     for x in range(0, numRounds):
         turn(sleepDuration)
     

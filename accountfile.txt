@@ -1,2 +1,2 @@
-username: aiyush password: 123
-username: 1234 password: 123
+username: aiyush password: cucumbermaki
+username: mike password: cucumbermaki
